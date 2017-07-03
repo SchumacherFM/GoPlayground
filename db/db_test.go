@@ -222,9 +222,11 @@ func BenchmarkSqlBoiler(b *testing.B) {
 	b.ResetTimer()
 
 	b.Run("all", func(b *testing.B) {
+		var res []*sqlboilr.CatalogProductEntityVarchar
 		cpev := sqlboilr.CatalogProductEntityVarchars(db)
 		for i := 0; i < b.N; i++ {
-			res, err := cpev.All()
+			var err error
+			res, err = cpev.All(res...)
 			if err != nil {
 				b.Fatal(err)
 			}

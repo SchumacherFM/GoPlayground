@@ -132,9 +132,7 @@ func (q catalogProductEntityVarcharQuery) AllP() CatalogProductEntityVarcharSlic
 }
 
 // All returns all CatalogProductEntityVarchar records from the query.
-func (q catalogProductEntityVarcharQuery) All() (CatalogProductEntityVarcharSlice, error) {
-	var o []*CatalogProductEntityVarchar
-
+func (q catalogProductEntityVarcharQuery) All(o ...*CatalogProductEntityVarchar) (CatalogProductEntityVarcharSlice, error) {
 	err := q.Bind(&o)
 	if err != nil {
 		return nil, errors.Wrap(err, "sqlboilr: failed to assign all query results to CatalogProductEntityVarchar slice")
