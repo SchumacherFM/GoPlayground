@@ -39,14 +39,15 @@ $ go test -v -run=XX -bench=. -benchmem .
 goos: darwin
 goarch: amd64
 pkg: github.com/SchumacherFM/GoPlayground/db
-BenchmarkMapStringScan-4   	    1000	   2127262 ns/op	  422528 B/op	   20912 allocs/op
-BenchmarkStrStrScan-4      	    1000	   2339049 ns/op	  422402 B/op	   20911 allocs/op
-BenchmarkRowMapString-4    	     500	   3352882 ns/op	 1528198 B/op	   36859 allocs/op
-BenchmarkSQLx/append-4     	     300	   3949653 ns/op	  535795 B/op	   22677 allocs/op
-BenchmarkSQLx/select-4     	     300	   4163452 ns/op	  593664 B/op	   24451 allocs/op
-BenchmarkCSFWdbr-4         	     500	   3232287 ns/op	  563782 B/op	   24448 allocs/op
-BenchmarkSqlStruct-4       	     300	   5388080 ns/op	  961058 B/op	   29767 allocs/op
-BenchmarkSqlBoiler/all-4   	     300	   4287595 ns/op	  791223 B/op	   26225 allocs/op
+BenchmarkMapStringScan-4   	    1000	   2124037 ns/op	  422527 B/op	   20912 allocs/op
+BenchmarkStrStrScan-4      	    1000	   2150774 ns/op	  422392 B/op	   20911 allocs/op
+BenchmarkRowMapString-4    	     500	   3341907 ns/op	 1528208 B/op	   36859 allocs/op
+BenchmarkSQLx/append-4     	     300	   3981498 ns/op	  535792 B/op	   22677 allocs/op
+BenchmarkSQLx/select-4     	     300	   4124333 ns/op	  593678 B/op	   24451 allocs/op
+BenchmarkCSFWdbr-4         	     500	   3262293 ns/op	  563783 B/op	   24448 allocs/op
+BenchmarkSqlStruct-4       	     300	   5550303 ns/op	  961036 B/op	   29767 allocs/op
+BenchmarkSqlBoiler/all-4   	     300	   4313070 ns/op	  791214 B/op	   26224 allocs/op
+BenchmarkKnq_xo/all-4      	     500	   3203877 ns/op	  535420 B/op	   22675 allocs/op
 PASS
-ok  	github.com/SchumacherFM/GoPlayground/db	16.046s
+ok  	github.com/SchumacherFM/GoPlayground/db	17.850s
 ```

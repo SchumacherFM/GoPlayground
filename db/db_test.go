@@ -1,16 +1,20 @@
 package main
 
 import (
+	"context"
 	"database/sql"
 	"testing"
 
-	"context"
 	"github.com/SchumacherFM/GoPlayground/db/sqlboilr"
 	"github.com/corestoreio/csfw/storage/dbr"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
 	"github.com/kisielk/sqlstruct"
+	"github.com/knq/dburl"
 )
+
+var _ dbr.Scanner = (*CPEVCollection)(nil)
+var _ dbr.QueryBuilder = (*CPEVCollection)(nil)
 
 //$ go test -v -bench=. -benchmem .
 //testing: warning: no tests to run
@@ -233,5 +237,25 @@ func BenchmarkSqlBoiler(b *testing.B) {
 			res = res[:0]
 		}
 	})
+}
 
+func BenchmarkKnq_xo(b *testing.B) {
+	db, err := dburl.Open("mysql://magento-1-8:magento-1-8@localhost/test?parseTime=true&sql_mode=ansi")
+	if err != nil {
+		b.Fatal(err)
+	}
+	defer db.Close()
+	b.ResetTimer()
+
+	b.Run("all", func(b *testing.B) {
+		var res []*CatalogProductEntityVarchar
+		for i := 0; i < b.N; i++ {
+			var err error
+			res, err = CatalogProductEntityVarcharsAll(db, res...)
+			if err != nil {
+				b.Fatal(err)
+			}
+			res = res[:0]
+		}
+	})
 }
