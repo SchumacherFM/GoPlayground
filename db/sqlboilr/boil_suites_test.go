@@ -52,10 +52,6 @@ func TestCount(t *testing.T) {
 	t.Run("CatalogProductEntityVarchars", testCatalogProductEntityVarcharsCount)
 }
 
-func TestHooks(t *testing.T) {
-	t.Run("CatalogProductEntityVarchars", testCatalogProductEntityVarcharsHooks)
-}
-
 func TestInsert(t *testing.T) {
 	t.Run("CatalogProductEntityVarchars", testCatalogProductEntityVarcharsInsert)
 	t.Run("CatalogProductEntityVarchars", testCatalogProductEntityVarcharsInsertWhitelist)

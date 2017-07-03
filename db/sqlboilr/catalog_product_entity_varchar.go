@@ -68,8 +68,6 @@ type (
 	// CatalogProductEntityVarcharSlice is an alias for a slice of pointers to CatalogProductEntityVarchar.
 	// This should generally be used opposed to []CatalogProductEntityVarchar.
 	CatalogProductEntityVarcharSlice []*CatalogProductEntityVarchar
-	// CatalogProductEntityVarcharHook is the signature for custom CatalogProductEntityVarchar hook methods
-	CatalogProductEntityVarcharHook func(boil.Executor, *CatalogProductEntityVarchar) error
 
 	catalogProductEntityVarcharQuery struct {
 		*queries.Query
@@ -95,139 +93,6 @@ var (
 	// Force bytes in case of primary key column that uses []byte (for relationship compares)
 	_ = bytes.MinRead
 )
-var catalogProductEntityVarcharBeforeInsertHooks []CatalogProductEntityVarcharHook
-var catalogProductEntityVarcharBeforeUpdateHooks []CatalogProductEntityVarcharHook
-var catalogProductEntityVarcharBeforeDeleteHooks []CatalogProductEntityVarcharHook
-var catalogProductEntityVarcharBeforeUpsertHooks []CatalogProductEntityVarcharHook
-
-var catalogProductEntityVarcharAfterInsertHooks []CatalogProductEntityVarcharHook
-var catalogProductEntityVarcharAfterSelectHooks []CatalogProductEntityVarcharHook
-var catalogProductEntityVarcharAfterUpdateHooks []CatalogProductEntityVarcharHook
-var catalogProductEntityVarcharAfterDeleteHooks []CatalogProductEntityVarcharHook
-var catalogProductEntityVarcharAfterUpsertHooks []CatalogProductEntityVarcharHook
-
-// doBeforeInsertHooks executes all "before insert" hooks.
-func (o *CatalogProductEntityVarchar) doBeforeInsertHooks(exec boil.Executor) (err error) {
-	for _, hook := range catalogProductEntityVarcharBeforeInsertHooks {
-		if err := hook(exec, o); err != nil {
-			return err
-		}
-	}
-
-	return nil
-}
-
-// doBeforeUpdateHooks executes all "before Update" hooks.
-func (o *CatalogProductEntityVarchar) doBeforeUpdateHooks(exec boil.Executor) (err error) {
-	for _, hook := range catalogProductEntityVarcharBeforeUpdateHooks {
-		if err := hook(exec, o); err != nil {
-			return err
-		}
-	}
-
-	return nil
-}
-
-// doBeforeDeleteHooks executes all "before Delete" hooks.
-func (o *CatalogProductEntityVarchar) doBeforeDeleteHooks(exec boil.Executor) (err error) {
-	for _, hook := range catalogProductEntityVarcharBeforeDeleteHooks {
-		if err := hook(exec, o); err != nil {
-			return err
-		}
-	}
-
-	return nil
-}
-
-// doBeforeUpsertHooks executes all "before Upsert" hooks.
-func (o *CatalogProductEntityVarchar) doBeforeUpsertHooks(exec boil.Executor) (err error) {
-	for _, hook := range catalogProductEntityVarcharBeforeUpsertHooks {
-		if err := hook(exec, o); err != nil {
-			return err
-		}
-	}
-
-	return nil
-}
-
-// doAfterInsertHooks executes all "after Insert" hooks.
-func (o *CatalogProductEntityVarchar) doAfterInsertHooks(exec boil.Executor) (err error) {
-	for _, hook := range catalogProductEntityVarcharAfterInsertHooks {
-		if err := hook(exec, o); err != nil {
-			return err
-		}
-	}
-
-	return nil
-}
-
-// doAfterSelectHooks executes all "after Select" hooks.
-func (o *CatalogProductEntityVarchar) doAfterSelectHooks(exec boil.Executor) (err error) {
-	for _, hook := range catalogProductEntityVarcharAfterSelectHooks {
-		if err := hook(exec, o); err != nil {
-			return err
-		}
-	}
-
-	return nil
-}
-
-// doAfterUpdateHooks executes all "after Update" hooks.
-func (o *CatalogProductEntityVarchar) doAfterUpdateHooks(exec boil.Executor) (err error) {
-	for _, hook := range catalogProductEntityVarcharAfterUpdateHooks {
-		if err := hook(exec, o); err != nil {
-			return err
-		}
-	}
-
-	return nil
-}
-
-// doAfterDeleteHooks executes all "after Delete" hooks.
-func (o *CatalogProductEntityVarchar) doAfterDeleteHooks(exec boil.Executor) (err error) {
-	for _, hook := range catalogProductEntityVarcharAfterDeleteHooks {
-		if err := hook(exec, o); err != nil {
-			return err
-		}
-	}
-
-	return nil
-}
-
-// doAfterUpsertHooks executes all "after Upsert" hooks.
-func (o *CatalogProductEntityVarchar) doAfterUpsertHooks(exec boil.Executor) (err error) {
-	for _, hook := range catalogProductEntityVarcharAfterUpsertHooks {
-		if err := hook(exec, o); err != nil {
-			return err
-		}
-	}
-
-	return nil
-}
-
-// AddCatalogProductEntityVarcharHook registers your hook function for all future operations.
-func AddCatalogProductEntityVarcharHook(hookPoint boil.HookPoint, catalogProductEntityVarcharHook CatalogProductEntityVarcharHook) {
-	switch hookPoint {
-	case boil.BeforeInsertHook:
-		catalogProductEntityVarcharBeforeInsertHooks = append(catalogProductEntityVarcharBeforeInsertHooks, catalogProductEntityVarcharHook)
-	case boil.BeforeUpdateHook:
-		catalogProductEntityVarcharBeforeUpdateHooks = append(catalogProductEntityVarcharBeforeUpdateHooks, catalogProductEntityVarcharHook)
-	case boil.BeforeDeleteHook:
-		catalogProductEntityVarcharBeforeDeleteHooks = append(catalogProductEntityVarcharBeforeDeleteHooks, catalogProductEntityVarcharHook)
-	case boil.BeforeUpsertHook:
-		catalogProductEntityVarcharBeforeUpsertHooks = append(catalogProductEntityVarcharBeforeUpsertHooks, catalogProductEntityVarcharHook)
-	case boil.AfterInsertHook:
-		catalogProductEntityVarcharAfterInsertHooks = append(catalogProductEntityVarcharAfterInsertHooks, catalogProductEntityVarcharHook)
-	case boil.AfterSelectHook:
-		catalogProductEntityVarcharAfterSelectHooks = append(catalogProductEntityVarcharAfterSelectHooks, catalogProductEntityVarcharHook)
-	case boil.AfterUpdateHook:
-		catalogProductEntityVarcharAfterUpdateHooks = append(catalogProductEntityVarcharAfterUpdateHooks, catalogProductEntityVarcharHook)
-	case boil.AfterDeleteHook:
-		catalogProductEntityVarcharAfterDeleteHooks = append(catalogProductEntityVarcharAfterDeleteHooks, catalogProductEntityVarcharHook)
-	case boil.AfterUpsertHook:
-		catalogProductEntityVarcharAfterUpsertHooks = append(catalogProductEntityVarcharAfterUpsertHooks, catalogProductEntityVarcharHook)
-	}
-}
 
 // OneP returns a single catalogProductEntityVarchar record from the query, and panics on error.
 func (q catalogProductEntityVarcharQuery) OneP() *CatalogProductEntityVarchar {
@@ -250,11 +115,7 @@ func (q catalogProductEntityVarcharQuery) One() (*CatalogProductEntityVarchar, e
 		if errors.Cause(err) == sql.ErrNoRows {
 			return nil, sql.ErrNoRows
 		}
-		return nil, errors.Wrap(err, "models: failed to execute a one query for catalog_product_entity_varchar")
-	}
-
-	if err := o.doAfterSelectHooks(queries.GetExecutor(q.Query)); err != nil {
-		return o, err
+		return nil, errors.Wrap(err, "sqlboilr: failed to execute a one query for catalog_product_entity_varchar")
 	}
 
 	return o, nil
@@ -276,15 +137,7 @@ func (q catalogProductEntityVarcharQuery) All() (CatalogProductEntityVarcharSlic
 
 	err := q.Bind(&o)
 	if err != nil {
-		return nil, errors.Wrap(err, "models: failed to assign all query results to CatalogProductEntityVarchar slice")
-	}
-
-	if len(catalogProductEntityVarcharAfterSelectHooks) != 0 {
-		for _, obj := range o {
-			if err := obj.doAfterSelectHooks(queries.GetExecutor(q.Query)); err != nil {
-				return o, err
-			}
-		}
+		return nil, errors.Wrap(err, "sqlboilr: failed to assign all query results to CatalogProductEntityVarchar slice")
 	}
 
 	return o, nil
@@ -309,7 +162,7 @@ func (q catalogProductEntityVarcharQuery) Count() (int64, error) {
 
 	err := q.Query.QueryRow().Scan(&count)
 	if err != nil {
-		return 0, errors.Wrap(err, "models: failed to count catalog_product_entity_varchar rows")
+		return 0, errors.Wrap(err, "sqlboilr: failed to count catalog_product_entity_varchar rows")
 	}
 
 	return count, nil
@@ -334,7 +187,7 @@ func (q catalogProductEntityVarcharQuery) Exists() (bool, error) {
 
 	err := q.Query.QueryRow().Scan(&count)
 	if err != nil {
-		return false, errors.Wrap(err, "models: failed to check if catalog_product_entity_varchar exists")
+		return false, errors.Wrap(err, "sqlboilr: failed to check if catalog_product_entity_varchar exists")
 	}
 
 	return count > 0, nil
@@ -386,7 +239,7 @@ func FindCatalogProductEntityVarchar(exec boil.Executor, valueID int, selectCols
 		if errors.Cause(err) == sql.ErrNoRows {
 			return nil, sql.ErrNoRows
 		}
-		return nil, errors.Wrap(err, "models: unable to select from catalog_product_entity_varchar")
+		return nil, errors.Wrap(err, "sqlboilr: unable to select from catalog_product_entity_varchar")
 	}
 
 	return catalogProductEntityVarcharObj, nil
@@ -430,14 +283,10 @@ func (o *CatalogProductEntityVarchar) InsertP(exec boil.Executor, whitelist ...s
 // - All columns with a default, but non-zero are included (i.e. health = 75)
 func (o *CatalogProductEntityVarchar) Insert(exec boil.Executor, whitelist ...string) error {
 	if o == nil {
-		return errors.New("models: no catalog_product_entity_varchar provided for insertion")
+		return errors.New("sqlboilr: no catalog_product_entity_varchar provided for insertion")
 	}
 
 	var err error
-
-	if err := o.doBeforeInsertHooks(exec); err != nil {
-		return err
-	}
 
 	nzDefaults := queries.NonZeroDefaultSet(catalogProductEntityVarcharColumnsWithDefault, o)
 
@@ -491,7 +340,7 @@ func (o *CatalogProductEntityVarchar) Insert(exec boil.Executor, whitelist ...st
 	result, err := exec.Exec(cache.query, vals...)
 
 	if err != nil {
-		return errors.Wrap(err, "models: unable to insert into catalog_product_entity_varchar")
+		return errors.Wrap(err, "sqlboilr: unable to insert into catalog_product_entity_varchar")
 	}
 
 	var lastID int64
@@ -522,7 +371,7 @@ func (o *CatalogProductEntityVarchar) Insert(exec boil.Executor, whitelist ...st
 
 	err = exec.QueryRow(cache.retQuery, identifierCols...).Scan(queries.PtrsFromMapping(value, cache.retMapping)...)
 	if err != nil {
-		return errors.Wrap(err, "models: unable to populate default values for catalog_product_entity_varchar")
+		return errors.Wrap(err, "sqlboilr: unable to populate default values for catalog_product_entity_varchar")
 	}
 
 CacheNoHooks:
@@ -532,7 +381,7 @@ CacheNoHooks:
 		catalogProductEntityVarcharInsertCacheMut.Unlock()
 	}
 
-	return o.doAfterInsertHooks(exec)
+	return nil
 }
 
 // UpdateG a single CatalogProductEntityVarchar record. See Update for
@@ -568,9 +417,6 @@ func (o *CatalogProductEntityVarchar) UpdateP(exec boil.Executor, whitelist ...s
 // to refresh the records.
 func (o *CatalogProductEntityVarchar) Update(exec boil.Executor, whitelist ...string) error {
 	var err error
-	if err = o.doBeforeUpdateHooks(exec); err != nil {
-		return err
-	}
 	key := makeCacheKey(whitelist, nil)
 	catalogProductEntityVarcharUpdateCacheMut.RLock()
 	cache, cached := catalogProductEntityVarcharUpdateCache[key]
@@ -587,7 +433,7 @@ func (o *CatalogProductEntityVarchar) Update(exec boil.Executor, whitelist ...st
 			wl = strmangle.SetComplement(wl, []string{"created_at"})
 		}
 		if len(wl) == 0 {
-			return errors.New("models: unable to update catalog_product_entity_varchar, could not build whitelist")
+			return errors.New("sqlboilr: unable to update catalog_product_entity_varchar, could not build whitelist")
 		}
 
 		cache.query = fmt.Sprintf("UPDATE `catalog_product_entity_varchar` SET %s WHERE %s",
@@ -609,7 +455,7 @@ func (o *CatalogProductEntityVarchar) Update(exec boil.Executor, whitelist ...st
 
 	_, err = exec.Exec(cache.query, values...)
 	if err != nil {
-		return errors.Wrap(err, "models: unable to update catalog_product_entity_varchar row")
+		return errors.Wrap(err, "sqlboilr: unable to update catalog_product_entity_varchar row")
 	}
 
 	if !cached {
@@ -618,7 +464,7 @@ func (o *CatalogProductEntityVarchar) Update(exec boil.Executor, whitelist ...st
 		catalogProductEntityVarcharUpdateCacheMut.Unlock()
 	}
 
-	return o.doAfterUpdateHooks(exec)
+	return nil
 }
 
 // UpdateAllP updates all rows with matching column names, and panics on error.
@@ -634,7 +480,7 @@ func (q catalogProductEntityVarcharQuery) UpdateAll(cols M) error {
 
 	_, err := q.Query.Exec()
 	if err != nil {
-		return errors.Wrap(err, "models: unable to update all for catalog_product_entity_varchar")
+		return errors.Wrap(err, "sqlboilr: unable to update all for catalog_product_entity_varchar")
 	}
 
 	return nil
@@ -667,7 +513,7 @@ func (o CatalogProductEntityVarcharSlice) UpdateAll(exec boil.Executor, cols M) 
 	}
 
 	if len(cols) == 0 {
-		return errors.New("models: update all requires at least one column argument")
+		return errors.New("sqlboilr: update all requires at least one column argument")
 	}
 
 	colNames := make([]string, len(cols))
@@ -697,7 +543,7 @@ func (o CatalogProductEntityVarcharSlice) UpdateAll(exec boil.Executor, cols M) 
 
 	_, err := exec.Exec(sql, args...)
 	if err != nil {
-		return errors.Wrap(err, "models: unable to update all in catalogProductEntityVarchar slice")
+		return errors.Wrap(err, "sqlboilr: unable to update all in catalogProductEntityVarchar slice")
 	}
 
 	return nil
@@ -726,11 +572,7 @@ func (o *CatalogProductEntityVarchar) UpsertP(exec boil.Executor, updateColumns 
 // Upsert attempts an insert using an executor, and does an update or ignore on conflict.
 func (o *CatalogProductEntityVarchar) Upsert(exec boil.Executor, updateColumns []string, whitelist ...string) error {
 	if o == nil {
-		return errors.New("models: no catalog_product_entity_varchar provided for upsert")
-	}
-
-	if err := o.doBeforeUpsertHooks(exec); err != nil {
-		return err
+		return errors.New("sqlboilr: no catalog_product_entity_varchar provided for upsert")
 	}
 
 	nzDefaults := queries.NonZeroDefaultSet(catalogProductEntityVarcharColumnsWithDefault, o)
@@ -772,7 +614,7 @@ func (o *CatalogProductEntityVarchar) Upsert(exec boil.Executor, updateColumns [
 			updateColumns,
 		)
 		if len(update) == 0 {
-			return errors.New("models: unable to upsert catalog_product_entity_varchar, could not build update column list")
+			return errors.New("sqlboilr: unable to upsert catalog_product_entity_varchar, could not build update column list")
 		}
 
 		cache.query = queries.BuildUpsertQueryMySQL(dialect, "catalog_product_entity_varchar", update, insert)
@@ -808,7 +650,7 @@ func (o *CatalogProductEntityVarchar) Upsert(exec boil.Executor, updateColumns [
 	result, err := exec.Exec(cache.query, vals...)
 
 	if err != nil {
-		return errors.Wrap(err, "models: unable to upsert for catalog_product_entity_varchar")
+		return errors.Wrap(err, "sqlboilr: unable to upsert for catalog_product_entity_varchar")
 	}
 
 	var lastID int64
@@ -839,7 +681,7 @@ func (o *CatalogProductEntityVarchar) Upsert(exec boil.Executor, updateColumns [
 
 	err = exec.QueryRow(cache.retQuery, identifierCols...).Scan(returns...)
 	if err != nil {
-		return errors.Wrap(err, "models: unable to populate default values for catalog_product_entity_varchar")
+		return errors.Wrap(err, "sqlboilr: unable to populate default values for catalog_product_entity_varchar")
 	}
 
 CacheNoHooks:
@@ -849,7 +691,7 @@ CacheNoHooks:
 		catalogProductEntityVarcharUpsertCacheMut.Unlock()
 	}
 
-	return o.doAfterUpsertHooks(exec)
+	return nil
 }
 
 // DeleteP deletes a single CatalogProductEntityVarchar record with an executor.
@@ -865,7 +707,7 @@ func (o *CatalogProductEntityVarchar) DeleteP(exec boil.Executor) {
 // DeleteG will match against the primary key column to find the record to delete.
 func (o *CatalogProductEntityVarchar) DeleteG() error {
 	if o == nil {
-		return errors.New("models: no CatalogProductEntityVarchar provided for deletion")
+		return errors.New("sqlboilr: no CatalogProductEntityVarchar provided for deletion")
 	}
 
 	return o.Delete(boil.GetDB())
@@ -884,11 +726,7 @@ func (o *CatalogProductEntityVarchar) DeleteGP() {
 // Delete will match against the primary key column to find the record to delete.
 func (o *CatalogProductEntityVarchar) Delete(exec boil.Executor) error {
 	if o == nil {
-		return errors.New("models: no CatalogProductEntityVarchar provided for delete")
-	}
-
-	if err := o.doBeforeDeleteHooks(exec); err != nil {
-		return err
+		return errors.New("sqlboilr: no CatalogProductEntityVarchar provided for delete")
 	}
 
 	args := queries.ValuesFromMapping(reflect.Indirect(reflect.ValueOf(o)), catalogProductEntityVarcharPrimaryKeyMapping)
@@ -901,11 +739,7 @@ func (o *CatalogProductEntityVarchar) Delete(exec boil.Executor) error {
 
 	_, err := exec.Exec(sql, args...)
 	if err != nil {
-		return errors.Wrap(err, "models: unable to delete from catalog_product_entity_varchar")
-	}
-
-	if err := o.doAfterDeleteHooks(exec); err != nil {
-		return err
+		return errors.Wrap(err, "sqlboilr: unable to delete from catalog_product_entity_varchar")
 	}
 
 	return nil
@@ -921,14 +755,14 @@ func (q catalogProductEntityVarcharQuery) DeleteAllP() {
 // DeleteAll deletes all matching rows.
 func (q catalogProductEntityVarcharQuery) DeleteAll() error {
 	if q.Query == nil {
-		return errors.New("models: no catalogProductEntityVarcharQuery provided for delete all")
+		return errors.New("sqlboilr: no catalogProductEntityVarcharQuery provided for delete all")
 	}
 
 	queries.SetDelete(q.Query)
 
 	_, err := q.Query.Exec()
 	if err != nil {
-		return errors.Wrap(err, "models: unable to delete all from catalog_product_entity_varchar")
+		return errors.Wrap(err, "sqlboilr: unable to delete all from catalog_product_entity_varchar")
 	}
 
 	return nil
@@ -944,7 +778,7 @@ func (o CatalogProductEntityVarcharSlice) DeleteAllGP() {
 // DeleteAllG deletes all rows in the slice.
 func (o CatalogProductEntityVarcharSlice) DeleteAllG() error {
 	if o == nil {
-		return errors.New("models: no CatalogProductEntityVarchar slice provided for delete all")
+		return errors.New("sqlboilr: no CatalogProductEntityVarchar slice provided for delete all")
 	}
 	return o.DeleteAll(boil.GetDB())
 }
@@ -959,19 +793,11 @@ func (o CatalogProductEntityVarcharSlice) DeleteAllP(exec boil.Executor) {
 // DeleteAll deletes all rows in the slice, using an executor.
 func (o CatalogProductEntityVarcharSlice) DeleteAll(exec boil.Executor) error {
 	if o == nil {
-		return errors.New("models: no CatalogProductEntityVarchar slice provided for delete all")
+		return errors.New("sqlboilr: no CatalogProductEntityVarchar slice provided for delete all")
 	}
 
 	if len(o) == 0 {
 		return nil
-	}
-
-	if len(catalogProductEntityVarcharBeforeDeleteHooks) != 0 {
-		for _, obj := range o {
-			if err := obj.doBeforeDeleteHooks(exec); err != nil {
-				return err
-			}
-		}
 	}
 
 	var args []interface{}
@@ -990,15 +816,7 @@ func (o CatalogProductEntityVarcharSlice) DeleteAll(exec boil.Executor) error {
 
 	_, err := exec.Exec(sql, args...)
 	if err != nil {
-		return errors.Wrap(err, "models: unable to delete all from catalogProductEntityVarchar slice")
-	}
-
-	if len(catalogProductEntityVarcharAfterDeleteHooks) != 0 {
-		for _, obj := range o {
-			if err := obj.doAfterDeleteHooks(exec); err != nil {
-				return err
-			}
-		}
+		return errors.Wrap(err, "sqlboilr: unable to delete all from catalogProductEntityVarchar slice")
 	}
 
 	return nil
@@ -1021,7 +839,7 @@ func (o *CatalogProductEntityVarchar) ReloadP(exec boil.Executor) {
 // ReloadG refetches the object from the database using the primary keys.
 func (o *CatalogProductEntityVarchar) ReloadG() error {
 	if o == nil {
-		return errors.New("models: no CatalogProductEntityVarchar provided for reload")
+		return errors.New("sqlboilr: no CatalogProductEntityVarchar provided for reload")
 	}
 
 	return o.Reload(boil.GetDB())
@@ -1061,7 +879,7 @@ func (o *CatalogProductEntityVarcharSlice) ReloadAllP(exec boil.Executor) {
 // and overwrites the original object slice with the newly updated slice.
 func (o *CatalogProductEntityVarcharSlice) ReloadAllG() error {
 	if o == nil {
-		return errors.New("models: empty CatalogProductEntityVarcharSlice provided for reload all")
+		return errors.New("sqlboilr: empty CatalogProductEntityVarcharSlice provided for reload all")
 	}
 
 	return o.ReloadAll(boil.GetDB())
@@ -1088,7 +906,7 @@ func (o *CatalogProductEntityVarcharSlice) ReloadAll(exec boil.Executor) error {
 
 	err := q.Bind(&catalogProductEntityVarchars)
 	if err != nil {
-		return errors.Wrap(err, "models: unable to reload all in CatalogProductEntityVarcharSlice")
+		return errors.Wrap(err, "sqlboilr: unable to reload all in CatalogProductEntityVarcharSlice")
 	}
 
 	*o = catalogProductEntityVarchars
@@ -1110,7 +928,7 @@ func CatalogProductEntityVarcharExists(exec boil.Executor, valueID int) (bool, e
 
 	err := row.Scan(&exists)
 	if err != nil {
-		return false, errors.Wrap(err, "models: unable to check if catalog_product_entity_varchar exists")
+		return false, errors.Wrap(err, "sqlboilr: unable to check if catalog_product_entity_varchar exists")
 	}
 
 	return exists, nil
