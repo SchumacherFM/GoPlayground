@@ -12,6 +12,22 @@ var btmpl *template.Template
 
 // Regarding to http://talks.golang.org/2015/tricks.slide#6
 // Benchmark results via Go1.5
+var s = []struct {
+	i int
+	s string
+}{
+	{6 * 9, "Question"},
+
+	{42, "Answer"},
+}
+
+var t = []struct {
+	i int
+	s string
+}{
+	{6 * 9, "Question"},
+	{42, "Answer"},
+}
 
 func init() {
 	var err error

@@ -1,0 +1,10 @@
+whilelist=["catalog_product_entity_varchar"]
+schema="test"
+[mysql]
+  dbname="test"
+  host="localhost"
+  port=3306
+  user="magento-1-8"
+  pass="magento-1-8"
+  sslmode="false"
+
