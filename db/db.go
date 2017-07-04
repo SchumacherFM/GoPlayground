@@ -11,7 +11,7 @@ import (
 const (
 	// 1745 rows
 	// columns are: value_id, entity_type_id, attribute_id, store_id, entity_id, value
-	TEST_QUERY = `SELECT * FROM catalog_product_entity_varchar`
+	TEST_QUERY = `SELECT * FROM catalog_product_entity_varchar ORDER BY value_id`
 )
 
 func main() {

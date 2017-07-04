@@ -1,6 +1,8 @@
 package main
 
-import "database/sql"
+import (
+	"database/sql"
+)
 
 type CPEV struct {
 	/*
@@ -32,7 +34,8 @@ func (vs *CPEVCollection) ToSQL() (string, []interface{}, error) {
 
 // RowScan implements dbr.Scanner interface and scans a single row from the
 // database query result.
-func (vs *CPEVCollection) RowScan(idx int64, _ []string, scan func(...interface{}) error) error {
+func (vs *CPEVCollection) RowScan(r *sql.Rows) error {
+	var o CPEV
 	if !vs.first {
 		vs.scanArg = [6]interface{}{
 			&vs.dto.ValueID, &vs.dto.EntityTypeId, &vs.dto.AttributeId,
@@ -40,12 +43,10 @@ func (vs *CPEVCollection) RowScan(idx int64, _ []string, scan func(...interface{
 		}
 		vs.first = true
 	}
-	if err := scan(
-		vs.scanArg[:]...,
-	); err != nil {
+	if err := r.Scan(vs.scanArg[:]...); err != nil {
 		return err
 	}
-	o := vs.dto
+	o = vs.dto
 	vs.Data = append(vs.Data, &o)
 	return nil
 }

@@ -24,7 +24,7 @@ var _ dbr.QueryBuilder = (*CPEVCollection)(nil)
 //BenchmarkRowMapString	     200	   7937005 ns/op	 1505452 B/op	   36304 allocs/op
 func BenchmarkMapStringScan(b *testing.B) {
 
-	db, err := sql.Open("mysql", "magento-1-8:magento-1-8@tcp(:3306)/magento-1-8")
+	db, err := sql.Open("mysql", "magento-1-8:magento-1-8@tcp(:3306)/test")
 	if err != nil {
 		b.Fatal(err)
 	}
@@ -59,7 +59,7 @@ func BenchmarkMapStringScan(b *testing.B) {
 }
 func BenchmarkStrStrScan(b *testing.B) {
 
-	db, err := sql.Open("mysql", "magento-1-8:magento-1-8@tcp(:3306)/magento-1-8")
+	db, err := sql.Open("mysql", "magento-1-8:magento-1-8@tcp(:3306)/test")
 	if err != nil {
 		b.Fatal(err)
 	}
@@ -95,7 +95,7 @@ func BenchmarkStrStrScan(b *testing.B) {
 
 func BenchmarkRowMapString(b *testing.B) {
 
-	db, err := sql.Open("mysql", "magento-1-8:magento-1-8@tcp(:3306)/magento-1-8")
+	db, err := sql.Open("mysql", "magento-1-8:magento-1-8@tcp(:3306)/test")
 	if err != nil {
 		b.Fatal(err)
 	}
@@ -129,7 +129,7 @@ func BenchmarkRowMapString(b *testing.B) {
 }
 
 func BenchmarkSQLx(b *testing.B) {
-	db, err := sqlx.Connect("mysql", "magento-1-8:magento-1-8@tcp(:3306)/magento-1-8")
+	db, err := sqlx.Connect("mysql", "magento-1-8:magento-1-8@tcp(:3306)/test")
 	if err != nil {
 		b.Fatal(err)
 	}
@@ -167,24 +167,37 @@ func BenchmarkSQLx(b *testing.B) {
 
 func BenchmarkCSFWdbr(b *testing.B) {
 
-	dbc := dbr.MustConnectAndVerify(dbr.WithDSN("magento-1-8:magento-1-8@tcp(:3306)/magento-1-8"))
+	dbc := dbr.MustConnectAndVerify(dbr.WithDSN("magento-1-8:magento-1-8@tcp(:3306)/test"))
 	ctx := context.Background()
 
 	defer dbc.Close()
-	b.ResetTimer()
 
 	cpc := new(CPEVCollection)
-	for i := 0; i < b.N; i++ {
-		if _, err := dbr.Load(ctx, dbc.DB, cpc, cpc); err != nil {
-			b.Fatal(err)
+	cpcraw := new(CPEVRawCollection)
+	b.ResetTimer()
+
+	b.Run("convertAssign", func(b *testing.B) {
+		for i := 0; i < b.N; i++ {
+			if _, err := dbr.Load(ctx, dbc.DB, cpc, cpc); err != nil {
+				b.Fatal(err)
+			}
+			cpc.Data = cpc.Data[:0]
 		}
-		cpc.Data = cpc.Data[:0]
-	}
+	})
+
+	b.Run("special-convert", func(b *testing.B) {
+		for i := 0; i < b.N; i++ {
+			if _, err := dbr.Load(ctx, dbc.DB, cpcraw, cpcraw); err != nil {
+				b.Fatal(err)
+			}
+			cpcraw.Data = cpc.Data[:0]
+		}
+	})
 }
 
 func BenchmarkSqlStruct(b *testing.B) {
 
-	db, err := sql.Open("mysql", "magento-1-8:magento-1-8@tcp(:3306)/magento-1-8")
+	db, err := sql.Open("mysql", "magento-1-8:magento-1-8@tcp(:3306)/test")
 	if err != nil {
 		b.Fatal(err)
 	}
