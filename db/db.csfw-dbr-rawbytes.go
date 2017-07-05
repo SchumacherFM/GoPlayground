@@ -27,8 +27,12 @@ type CPEVRawCollection struct {
 	Data    []*CPEV
 	scanRaw []*sql.RawBytes
 	scanArg []interface{}
-	first   bool
-	c       uint
+	Count   uint
+	Init    bool
+	Columns []string
+	// Alias maps a `key` containing the alias name used in the query to the
+	// `value` the original snake case name used in the struct.
+	Alias map[string]string
 }
 
 func (vs *CPEVRawCollection) ToSQL() (string, []interface{}, error) {
@@ -38,44 +42,59 @@ func (vs *CPEVRawCollection) ToSQL() (string, []interface{}, error) {
 // RowScan implements dbr.Scanner interface and scans a single row from the
 // database query result.
 func (vs *CPEVRawCollection) RowScan(r *sql.Rows) error {
-	if !vs.first {
-		cols, err := r.Columns()
+	if !vs.Init {
+		var err error
+		vs.Columns, err = r.Columns()
 		if err != nil {
 			return err
 		}
-		vs.scanRaw = make([]*sql.RawBytes, len(cols))
-		vs.scanArg = make([]interface{}, len(cols))
-		for i := range vs.scanArg {
+		vs.scanRaw = make([]*sql.RawBytes, len(vs.Columns))
+		vs.scanArg = make([]interface{}, len(vs.Columns))
+		for i := range vs.Columns {
 			vs.scanRaw[i] = new(sql.RawBytes)
 			vs.scanArg[i] = vs.scanRaw[i]
 		}
-		vs.first = true
+		vs.Init = true
+		vs.Count = 0
 	}
 	if err := r.Scan(vs.scanArg...); err != nil {
 		return err
 	}
 
-	var o CPEV
+	o := new(CPEV)
+	for i, col := range vs.Columns {
+		if vs.Alias != nil {
+			if orgCol, ok := vs.Alias[col]; ok {
+				col = orgCol
+			}
+		}
+		// TODO err checking
+		switch col {
+		case "value_id":
+			o.ValueID, _ = byteconv.ParseIntSQL(vs.scanRaw[i])
+		case "entity_type_id":
+			uid, _, _ := byteconv.ParseUintSQL(vs.scanRaw[i], 10, 32)
+			o.EntityTypeId = uint(uid)
+		case "attribute_id":
+			uid, _, _ := byteconv.ParseUintSQL(vs.scanRaw[i], 10, 16)
+			o.AttributeId = uint16(uid)
+		case "store_id":
+			uid, _, _ := byteconv.ParseUintSQL(vs.scanRaw[i], 10, 16)
+			o.StoreId = uint16(uid)
+		case "entity_id":
+			uid, _, _ := byteconv.ParseUintSQL(vs.scanRaw[i], 10, 32)
+			o.EntityId = uint(uid)
+		case "value":
+			o.Value = byteconv.ParseNullStringSQL(vs.scanRaw[i])
+		}
+	}
 
-	// TODO err checking
-	o.ValueID, _, _ = byteconv.ParseIntSQL(vs.scanRaw[0])
-	uid, _, _ := byteconv.ParseUintSQL(vs.scanRaw[1], 10, 32)
-	o.EntityTypeId = uint(uid)
-	uid, _, _ = byteconv.ParseUintSQL(vs.scanRaw[2], 10, 16)
-	o.AttributeId = uint16(uid)
-	uid, _, _ = byteconv.ParseUintSQL(vs.scanRaw[3], 10, 16)
-	o.StoreId = uint16(uid)
-	uid, _, _ = byteconv.ParseUintSQL(vs.scanRaw[4], 10, 32)
-	o.EntityId = uint(uid)
-
-	o.Value = byteconv.ParseStringSQL(vs.scanRaw[5])
-
-	//fmt.Printf("%#v => %s\n\n", *(vs.scanRaw[2]), *(vs.scanRaw[2]))
-	//if vs.c > 5 {
+	//fmt.Printf("%#v \n\n", o)
+	//if vs.Count > 5 {
 	//	panic("game over")
 	//}
 
-	vs.Data = append(vs.Data, &o)
-	vs.c++
+	vs.Data = append(vs.Data, o)
+	vs.Count++
 	return nil
 }
