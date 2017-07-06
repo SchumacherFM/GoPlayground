@@ -32,7 +32,8 @@ type CPEVRawCollection struct {
 	Columns []string
 	// Alias maps a `key` containing the alias name used in the query to the
 	// `value` the original snake case name used in the struct.
-	Alias map[string]string
+	Alias          map[string]string
+	EventAfterScan []func(*CPEV)
 }
 
 func (vs *CPEVRawCollection) ToSQL() (string, []interface{}, error) {
@@ -68,25 +69,33 @@ func (vs *CPEVRawCollection) RowScan(r *sql.Rows) error {
 				col = orgCol
 			}
 		}
-		// TODO err checking
+		var err error
+		var uid uint64
 		switch col {
 		case "value_id":
-			o.ValueID, _ = byteconv.ParseIntSQL(vs.scanRaw[i])
+			o.ValueID, err = byteconv.ParseIntSQL(vs.scanRaw[i])
 		case "entity_type_id":
-			uid, _, _ := byteconv.ParseUintSQL(vs.scanRaw[i], 10, 32)
+			uid, _, err = byteconv.ParseUintSQL(vs.scanRaw[i], 10, 32)
 			o.EntityTypeId = uint(uid)
 		case "attribute_id":
-			uid, _, _ := byteconv.ParseUintSQL(vs.scanRaw[i], 10, 16)
+			uid, _, err = byteconv.ParseUintSQL(vs.scanRaw[i], 10, 16)
 			o.AttributeId = uint16(uid)
 		case "store_id":
-			uid, _, _ := byteconv.ParseUintSQL(vs.scanRaw[i], 10, 16)
+			uid, _, err = byteconv.ParseUintSQL(vs.scanRaw[i], 10, 16)
 			o.StoreId = uint16(uid)
 		case "entity_id":
-			uid, _, _ := byteconv.ParseUintSQL(vs.scanRaw[i], 10, 32)
+			uid, _, err = byteconv.ParseUintSQL(vs.scanRaw[i], 10, 32)
 			o.EntityId = uint(uid)
 		case "value":
 			o.Value = byteconv.ParseNullStringSQL(vs.scanRaw[i])
 		}
+		if err != nil {
+			return err
+		}
+	}
+
+	for _, fn := range vs.EventAfterScan {
+		fn(o)
 	}
 
 	//fmt.Printf("%#v \n\n", o)

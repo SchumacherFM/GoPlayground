@@ -7,10 +7,13 @@ import (
 
 	"github.com/SchumacherFM/GoPlayground/db/sqlboilr"
 	"github.com/corestoreio/csfw/storage/dbr"
+	"github.com/corestoreio/csfw/util/byteconv"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
 	"github.com/kisielk/sqlstruct"
 	"github.com/knq/dburl"
+	"gopkg.in/reform.v1"
+	"gopkg.in/reform.v1/dialects/mysql"
 )
 
 var _ dbr.Scanner = (*CPEVCollection)(nil)
@@ -184,8 +187,17 @@ func BenchmarkCSFWdbr(b *testing.B) {
 			cpc.Data = cpc.Data[:0]
 		}
 	})
-
-	b.Run("special-convert", func(b *testing.B) {
+	b.Run("convert byteconv", func(b *testing.B) {
+		byteconv.UseStdLib = false
+		for i := 0; i < b.N; i++ {
+			if _, err := dbr.Load(ctx, dbc.DB, cpcraw, cpcraw); err != nil {
+				b.Fatal(err)
+			}
+			cpcraw.Data = cpc.Data[:0]
+		}
+	})
+	b.Run("convert stdlib", func(b *testing.B) {
+		byteconv.UseStdLib = true
 		for i := 0; i < b.N; i++ {
 			if _, err := dbr.Load(ctx, dbc.DB, cpcraw, cpcraw); err != nil {
 				b.Fatal(err)
@@ -265,6 +277,31 @@ func BenchmarkKnq_xo(b *testing.B) {
 		for i := 0; i < b.N; i++ {
 			var err error
 			res, err = CatalogProductEntityVarcharsAll(db, res...)
+			if err != nil {
+				b.Fatal(err)
+			}
+			res = res[:0]
+		}
+	})
+}
+
+func BenchmarkReform(b *testing.B) {
+	db, err := sql.Open("mysql", "magento-1-8:magento-1-8@tcp(:3306)/test")
+	if err != nil {
+		b.Fatal(err)
+	}
+	defer db.Close()
+
+	rdb := reform.NewDB(db, mysql.Dialect, nil)
+
+	b.ResetTimer()
+
+	b.Run("all", func(b *testing.B) {
+		var res []reform.Struct
+
+		for i := 0; i < b.N; i++ {
+			var err error
+			res, err = rdb.SelectAllFrom(CPEVTable, "")
 			if err != nil {
 				b.Fatal(err)
 			}

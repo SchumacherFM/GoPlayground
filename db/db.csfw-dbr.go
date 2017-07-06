@@ -4,6 +4,7 @@ import (
 	"database/sql"
 )
 
+//reform:catalog_product_entity_varchar
 type CPEV struct {
 	/*
 	  `value_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Value ID',
@@ -13,12 +14,12 @@ type CPEV struct {
 	  `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity ID',
 	  `value` varchar(255) DEFAULT NULL COMMENT 'Value',
 	*/
-	ValueID      int64          `sql:"value_id" db:"value_id"`
-	EntityTypeId uint           `sql:"entity_type_id" db:"entity_type_id"`
-	AttributeId  uint16         `sql:"attribute_id" db:"attribute_id"`
-	StoreId      uint16         `sql:"store_id" db:"store_id"`
-	EntityId     uint           `sql:"entity_id" db:"entity_id"`
-	Value        sql.NullString `sql:"value" db:"value"`
+	ValueID      int64          `sql:"value_id" db:"value_id" reform:"value_id,pk"`
+	EntityTypeId uint           `sql:"entity_type_id" db:"entity_type_id" reform:"entity_type_id"`
+	AttributeId  uint16         `sql:"attribute_id" db:"attribute_id" reform:"attribute_id"`
+	StoreId      uint16         `sql:"store_id" db:"store_id" reform:"store_id"`
+	EntityId     uint           `sql:"entity_id" db:"entity_id" reform:"entity_id"`
+	Value        sql.NullString `sql:"value" db:"value" reform:"value"`
 }
 
 type CPEVCollection struct {
