@@ -3,7 +3,7 @@ package main
 import (
 	"database/sql"
 
-	"github.com/corestoreio/csfw/util/byteconv"
+	"github.com/corestoreio/csfw/storage/dbr"
 )
 
 //type CPEV struct {
@@ -24,15 +24,8 @@ import (
 //}
 
 type CPEVRawCollection struct {
-	Data    []*CPEV
-	scanRaw []*sql.RawBytes
-	scanArg []interface{}
-	Count   uint
-	Init    bool
-	Columns []string
-	// Alias maps a `key` containing the alias name used in the query to the
-	// `value` the original snake case name used in the struct.
-	Alias          map[string]string
+	Base           dbr.Base
+	Data           []*CPEV
 	EventAfterScan []func(*CPEV)
 }
 
@@ -43,51 +36,32 @@ func (vs *CPEVRawCollection) ToSQL() (string, []interface{}, error) {
 // RowScan implements dbr.Scanner interface and scans a single row from the
 // database query result.
 func (vs *CPEVRawCollection) RowScan(r *sql.Rows) error {
-	if !vs.Init {
-		var err error
-		vs.Columns, err = r.Columns()
-		if err != nil {
-			return err
-		}
-		vs.scanRaw = make([]*sql.RawBytes, len(vs.Columns))
-		vs.scanArg = make([]interface{}, len(vs.Columns))
-		for i := range vs.Columns {
-			vs.scanRaw[i] = new(sql.RawBytes)
-			vs.scanArg[i] = vs.scanRaw[i]
-		}
-		vs.Init = true
-		vs.Count = 0
-	}
-	if err := r.Scan(vs.scanArg...); err != nil {
+	if err := vs.Base.Scan(r); err != nil {
 		return err
 	}
 
 	o := new(CPEV)
-	for i, col := range vs.Columns {
-		if vs.Alias != nil {
-			if orgCol, ok := vs.Alias[col]; ok {
+	for i, col := range vs.Base.Columns {
+		if vs.Base.Alias != nil {
+			if orgCol, ok := vs.Base.Alias[col]; ok {
 				col = orgCol
 			}
 		}
+		b := vs.Base.Index(i)
 		var err error
-		var uid uint64
 		switch col {
 		case "value_id":
-			o.ValueID, err = byteconv.ParseIntSQL(vs.scanRaw[i])
+			o.ValueID, err = b.Int64()
 		case "entity_type_id":
-			uid, _, err = byteconv.ParseUintSQL(vs.scanRaw[i], 10, 32)
-			o.EntityTypeId = uint(uid)
+			o.EntityTypeId, err = b.Uint()
 		case "attribute_id":
-			uid, _, err = byteconv.ParseUintSQL(vs.scanRaw[i], 10, 16)
-			o.AttributeId = uint16(uid)
+			o.AttributeId, err = b.Uint16()
 		case "store_id":
-			uid, _, err = byteconv.ParseUintSQL(vs.scanRaw[i], 10, 16)
-			o.StoreId = uint16(uid)
+			o.StoreId, err = b.Uint16()
 		case "entity_id":
-			uid, _, err = byteconv.ParseUintSQL(vs.scanRaw[i], 10, 32)
-			o.EntityId = uint(uid)
+			o.EntityId, err = b.Uint()
 		case "value":
-			o.Value = byteconv.ParseNullStringSQL(vs.scanRaw[i])
+			o.Value, err = b.NullString()
 		}
 		if err != nil {
 			return err
@@ -98,12 +72,6 @@ func (vs *CPEVRawCollection) RowScan(r *sql.Rows) error {
 		fn(o)
 	}
 
-	//fmt.Printf("%#v \n\n", o)
-	//if vs.Count > 5 {
-	//	panic("game over")
-	//}
-
 	vs.Data = append(vs.Data, o)
-	vs.Count++
 	return nil
 }
