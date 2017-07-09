@@ -34,23 +34,50 @@ CREATE TABLE `catalog_product_entity_varchar` (
 9	10	96	0	17	BlackBerry 8100 Pearl
 ```
 
+For more details see the `bench_result.txt` in this repo.
+
 ```
 $ go test -v -run=XX -bench=. -benchmem -count=1 .
-goos: darwin
-goarch: amd64
-pkg: github.com/SchumacherFM/GoPlayground/db
-BenchmarkMapStringScan-4   	           1000	   2107525 ns/op	  422517 B/op	   20911 allocs/op
-BenchmarkStrStrScan-4      	           1000	   2141069 ns/op	  422402 B/op	   20910 allocs/op
-BenchmarkRowMapString-4    	            500	   3521092 ns/op	 1528219 B/op	   36858 allocs/op
-BenchmarkSQLx/append-4     	            300	   3917771 ns/op	  535787 B/op	   22676 allocs/op
-BenchmarkSQLx/select-4     	            300	   4123062 ns/op	  593663 B/op	   24450 allocs/op
-BenchmarkCSFWdbr/convertAssign-4        500	   3146558 ns/op	  535302 B/op	   22674 allocs/op
-BenchmarkCSFWdbr/convert_byteconv-4    1000	   2089494 ns/op	  510940 B/op	   13809 allocs/op
-BenchmarkCSFWdbr/convert_stdlib-4      1000	   2210202 ns/op	  535288 B/op	   22674 allocs/op
-BenchmarkSqlStruct-4                    300	   5548505 ns/op	  961030 B/op	   29766 allocs/op
-BenchmarkSqlBoiler/all-4                300	   4252749 ns/op	  791200 B/op	   26223 allocs/op
-BenchmarkKnq_xo/all-4                   500	   3209315 ns/op	  535406 B/op	   22674 allocs/op
-BenchmarkReform/all-4                   500	   3395000 ns/op	  829285 B/op	   24485 allocs/op
-PASS
-ok  	github.com/SchumacherFM/GoPlayground/db	24.687s
+$ benchstat bench_result.txt
+name                        time/op
+MapStringScan-4             1.76ms ± 4%
+StrStrScan-4                1.50ms ± 1%
+RowMapString-4              2.95ms ± 0%
+SQLx/append-4               3.55ms ± 0%
+SQLx/select-4               3.70ms ± 0%
+CSFWdbr/convertAssign-4     2.72ms ± 0%
+CSFWdbr/convert_byteconv-4  1.70ms ± 1%
+CSFWdbr/convert_stdlib-4    1.88ms ± 1%
+SqlStruct-4                 4.96ms ± 0%
+SqlBoiler/all-4             3.85ms ± 0%
+Knq_xo/all-4                2.84ms ± 0%
+Reform/all-4                2.99ms ± 0%
+
+name                        alloc/op
+MapStringScan-4              423kB ± 0%
+StrStrScan-4                 422kB ± 0%
+RowMapString-4              1.53MB ± 0%
+SQLx/append-4                536kB ± 0%
+SQLx/select-4                593kB ± 0%
+CSFWdbr/convertAssign-4      535kB ± 0%
+CSFWdbr/convert_byteconv-4   511kB ± 0%
+CSFWdbr/convert_stdlib-4     535kB ± 0%
+SqlStruct-4                  961kB ± 0%
+SqlBoiler/all-4              791kB ± 0%
+Knq_xo/all-4                 535kB ± 0%
+Reform/all-4                 829kB ± 0%
+
+name                        allocs/op
+MapStringScan-4              20.9k ± 0%
+StrStrScan-4                 20.9k ± 0%
+RowMapString-4               36.9k ± 0%
+SQLx/append-4                22.7k ± 0%
+SQLx/select-4                24.4k ± 0%
+CSFWdbr/convertAssign-4      22.7k ± 0%
+CSFWdbr/convert_byteconv-4   13.8k ± 0%
+CSFWdbr/convert_stdlib-4     22.7k ± 0%
+SqlStruct-4                  29.8k ± 0%
+SqlBoiler/all-4              26.2k ± 0%
+Knq_xo/all-4                 22.7k ± 0%
+Reform/all-4                 24.5k ± 0%
 ```

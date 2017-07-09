@@ -1,0 +1,53 @@
+goos: darwin
+goarch: amd64
+pkg: github.com/SchumacherFM/GoPlayground/db
+BenchmarkMapStringScan-4   	    1000	   1716076 ns/op	  422528 B/op	   20911 allocs/op
+BenchmarkMapStringScan-4   	    1000	   1773254 ns/op	  422511 B/op	   20911 allocs/op
+BenchmarkMapStringScan-4   	    1000	   1721063 ns/op	  422522 B/op	   20911 allocs/op
+BenchmarkMapStringScan-4   	    1000	   1823074 ns/op	  422507 B/op	   20911 allocs/op
+BenchmarkStrStrScan-4      	    1000	   1511428 ns/op	  422379 B/op	   20910 allocs/op
+BenchmarkStrStrScan-4      	    1000	   1490979 ns/op	  422387 B/op	   20910 allocs/op
+BenchmarkStrStrScan-4      	    1000	   1491785 ns/op	  422381 B/op	   20910 allocs/op
+BenchmarkStrStrScan-4      	    1000	   1494746 ns/op	  422378 B/op	   20910 allocs/op
+BenchmarkRowMapString-4    	     500	   2945016 ns/op	 1528191 B/op	   36858 allocs/op
+BenchmarkRowMapString-4    	     500	   2962383 ns/op	 1528190 B/op	   36858 allocs/op
+BenchmarkRowMapString-4    	     500	   2942316 ns/op	 1528187 B/op	   36858 allocs/op
+BenchmarkRowMapString-4    	     500	   2943598 ns/op	 1528188 B/op	   36858 allocs/op
+BenchmarkSQLx/append-4     	     500	   3548680 ns/op	  535707 B/op	   22676 allocs/op
+BenchmarkSQLx/append-4     	     500	   3557871 ns/op	  535708 B/op	   22676 allocs/op
+BenchmarkSQLx/append-4     	     500	   3541816 ns/op	  535709 B/op	   22676 allocs/op
+BenchmarkSQLx/append-4     	     500	   3543649 ns/op	  535711 B/op	   22676 allocs/op
+BenchmarkSQLx/select-4     	     500	   3700420 ns/op	  593140 B/op	   24450 allocs/op
+BenchmarkSQLx/select-4     	     500	   3701170 ns/op	  593134 B/op	   24450 allocs/op
+BenchmarkSQLx/select-4     	     500	   3694617 ns/op	  593142 B/op	   24450 allocs/op
+BenchmarkSQLx/select-4     	     500	   3719880 ns/op	  593131 B/op	   24450 allocs/op
+BenchmarkCSFWdbr/convertAssign-4         	     500	   2721142 ns/op	  535291 B/op	   22674 allocs/op
+BenchmarkCSFWdbr/convertAssign-4         	     500	   2720985 ns/op	  535287 B/op	   22674 allocs/op
+BenchmarkCSFWdbr/convertAssign-4         	     500	   2717982 ns/op	  535289 B/op	   22674 allocs/op
+BenchmarkCSFWdbr/convertAssign-4         	     500	   2728739 ns/op	  535288 B/op	   22674 allocs/op
+BenchmarkCSFWdbr/convert_byteconv-4      	    1000	   1710692 ns/op	  510938 B/op	   13809 allocs/op
+BenchmarkCSFWdbr/convert_byteconv-4      	    1000	   1697646 ns/op	  510939 B/op	   13809 allocs/op
+BenchmarkCSFWdbr/convert_byteconv-4      	    1000	   1698819 ns/op	  510939 B/op	   13809 allocs/op
+BenchmarkCSFWdbr/convert_byteconv-4      	    1000	   1699541 ns/op	  510935 B/op	   13809 allocs/op
+BenchmarkCSFWdbr/convert_stdlib-4        	    1000	   1894217 ns/op	  535294 B/op	   22674 allocs/op
+BenchmarkCSFWdbr/convert_stdlib-4        	    1000	   1885668 ns/op	  535290 B/op	   22674 allocs/op
+BenchmarkCSFWdbr/convert_stdlib-4        	    1000	   1883240 ns/op	  535290 B/op	   22674 allocs/op
+BenchmarkCSFWdbr/convert_stdlib-4        	    1000	   1874502 ns/op	  535292 B/op	   22674 allocs/op
+BenchmarkSqlStruct-4                     	     300	   4974853 ns/op	  961040 B/op	   29766 allocs/op
+BenchmarkSqlStruct-4                     	     300	   4961629 ns/op	  961036 B/op	   29766 allocs/op
+BenchmarkSqlStruct-4                     	     300	   4959317 ns/op	  961035 B/op	   29766 allocs/op
+BenchmarkSqlStruct-4                     	     300	   4949272 ns/op	  961036 B/op	   29766 allocs/op
+BenchmarkSqlBoiler/all-4                 	     500	   3843039 ns/op	  791144 B/op	   26224 allocs/op
+BenchmarkSqlBoiler/all-4                 	     500	   3836446 ns/op	  791135 B/op	   26223 allocs/op
+BenchmarkSqlBoiler/all-4                 	     500	   3853185 ns/op	  791139 B/op	   26224 allocs/op
+BenchmarkSqlBoiler/all-4                 	     500	   3861369 ns/op	  791139 B/op	   26224 allocs/op
+BenchmarkKnq_xo/all-4                    	     500	   2833637 ns/op	  535413 B/op	   22674 allocs/op
+BenchmarkKnq_xo/all-4                    	     500	   2839809 ns/op	  535409 B/op	   22674 allocs/op
+BenchmarkKnq_xo/all-4                    	     500	   2834865 ns/op	  535409 B/op	   22674 allocs/op
+BenchmarkKnq_xo/all-4                    	     500	   2837336 ns/op	  535410 B/op	   22674 allocs/op
+BenchmarkReform/all-4                    	     500	   2991220 ns/op	  829276 B/op	   24485 allocs/op
+BenchmarkReform/all-4                    	     500	   2984688 ns/op	  829274 B/op	   24485 allocs/op
+BenchmarkReform/all-4                    	     500	   2991877 ns/op	  829274 B/op	   24485 allocs/op
+BenchmarkReform/all-4                    	     500	   2976603 ns/op	  829313 B/op	   24485 allocs/op
+PASS
+ok  	github.com/SchumacherFM/GoPlayground/db	92.502s

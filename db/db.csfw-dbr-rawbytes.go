@@ -24,7 +24,7 @@ import (
 //}
 
 type CPEVRawCollection struct {
-	Base           dbr.Base
+	Convert        dbr.RowConvert
 	Data           []*CPEV
 	EventAfterScan []func(*CPEV)
 }
@@ -36,18 +36,18 @@ func (vs *CPEVRawCollection) ToSQL() (string, []interface{}, error) {
 // RowScan implements dbr.Scanner interface and scans a single row from the
 // database query result.
 func (vs *CPEVRawCollection) RowScan(r *sql.Rows) error {
-	if err := vs.Base.Scan(r); err != nil {
+	if err := vs.Convert.Scan(r); err != nil {
 		return err
 	}
 
 	o := new(CPEV)
-	for i, col := range vs.Base.Columns {
-		if vs.Base.Alias != nil {
-			if orgCol, ok := vs.Base.Alias[col]; ok {
+	for i, col := range vs.Convert.Columns {
+		if vs.Convert.Alias != nil {
+			if orgCol, ok := vs.Convert.Alias[col]; ok {
 				col = orgCol
 			}
 		}
-		b := vs.Base.Index(i)
+		b := vs.Convert.Index(i)
 		var err error
 		switch col {
 		case "value_id":
