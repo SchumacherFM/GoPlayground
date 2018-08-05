@@ -1,12 +1,22 @@
 package main
 
 import (
+	"fmt"
 	"log"
+	"math/rand"
 	"net/http"
 	"runtime"
+
+	"github.com/minio/highwayhash"
 )
 
+var highwayHashKey [highwayhash.Size]byte
+
 func main() {
+
+	n, err := rand.Read(highwayHashKey[:])
+	fmt.Printf("%d\n%s\n%#v\n", n, err, highwayHashKey)
+	return
 	log.Println("Version:", runtime.Version())
 	runtime.GOMAXPROCS(runtime.NumCPU())
 	http.Handle("/", http.FileServer(http.Dir(".")))
