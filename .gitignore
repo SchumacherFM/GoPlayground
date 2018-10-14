@@ -1,0 +1,5 @@
+/comptrain/testdata/*
+!/comptrain/testdata/.gitkeep
+/comptrain/z_comptrain.html
+/comptrain/admin-ajax.html
+/comptrain/index.html
