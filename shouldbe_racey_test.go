@@ -15,10 +15,10 @@ func TestShouldBeRacy(t *testing.T) {
 		println("gorutine terminated")
 	}()
 	var x *int
-	//var y int
+	// var y int
 	for i := 0; i < 1e5; i++ {
 		x = a
-		//y = *a
+		// y = *a
 	}
 	fmt.Printf("p:%p\n", x)
 }

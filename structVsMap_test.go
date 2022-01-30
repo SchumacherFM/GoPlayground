@@ -65,7 +65,6 @@ func BenchmarkStringSliceExcluded(b *testing.B) {
 			needle := strconv.Itoa(rand.Intn(SIZE))
 			for j := 0; j < SIZE; j += 2 {
 				if lookup[j] == needle {
-
 				}
 			}
 		}
@@ -85,7 +84,6 @@ func BenchmarkStringSliceIncluded(b *testing.B) {
 			needle := strconv.Itoa(rand.Intn(SIZE))
 			for j := 0; j < SIZE; j += 2 {
 				if lookup[j] == needle {
-
 				}
 			}
 		}
@@ -105,12 +103,12 @@ func BenchmarkStringArraysExcluded(b *testing.B) {
 			needle := strconv.Itoa(rand.Intn(SIZE))
 			for j := 0; j < SIZE; j += 2 {
 				if lookup[j] == needle {
-
 				}
 			}
 		}
 	}
 }
+
 func BenchmarkStringArraysIncluded(b *testing.B) {
 	rand.Seed(int64(b.N))
 	b.ResetTimer()
@@ -124,7 +122,6 @@ func BenchmarkStringArraysIncluded(b *testing.B) {
 			needle := strconv.Itoa(rand.Intn(SIZE))
 			for j := 0; j < SIZE; j += 2 {
 				if lookup[j] == needle {
-
 				}
 			}
 		}
@@ -144,12 +141,12 @@ func BenchmarkStructSliceExcluded(b *testing.B) {
 			needle := strconv.Itoa(rand.Intn(SIZE))
 			for j := 0; j < SIZE; j++ {
 				if lookup[j].key == needle {
-
 				}
 			}
 		}
 	}
 }
+
 func BenchmarkStructSliceIncluded(b *testing.B) {
 	rand.Seed(int64(b.N))
 	b.ResetTimer()
@@ -163,7 +160,6 @@ func BenchmarkStructSliceIncluded(b *testing.B) {
 			needle := strconv.Itoa(rand.Intn(SIZE))
 			for j := 0; j < SIZE; j++ {
 				if lookup[j].key == needle {
-
 				}
 			}
 		}

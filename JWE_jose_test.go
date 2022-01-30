@@ -9,7 +9,6 @@ import (
 )
 
 func Test_JSON_JOSE(t *testing.T) {
-
 	// Generate a public/private key pair to use for this example. The library
 	// also provides two utility functions (LoadPublicKey and LoadPrivateKey)
 	// that can be used to load keys from PEM/DER-encoded data.
@@ -29,7 +28,7 @@ func Test_JSON_JOSE(t *testing.T) {
 	// Encrypt a sample plaintext. Calling the encrypter returns an encrypted
 	// JWE object, which can then be serialized for output afterwards. An error
 	// would indicate a problem in an underlying cryptographic primitive.
-	var plaintext = []byte("Lorem ipsum dolor sit amet")
+	plaintext := []byte("Lorem ipsum dolor sit amet")
 	object, err := encrypter.Encrypt(plaintext)
 	if err != nil {
 		panic(err)
@@ -63,5 +62,4 @@ func Test_JSON_JOSE(t *testing.T) {
 	}
 
 	t.Log("decrypted", string(decrypted))
-
 }

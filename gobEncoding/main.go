@@ -46,12 +46,14 @@ type Feature struct {
 	Key     string
 	Cluster string
 }
+
 type ProductItemGroup struct {
 	AssetID  int64
 	ID       string
 	Features Features
 	Material Features
 }
+
 type Product struct {
 	AssetID           int64
 	Categories        []*ProductCategory

@@ -106,7 +106,6 @@ func benchDecode(dec Decoder, enc Encoder, b *testing.B) {
 			b.Fatal(err)
 		}
 	}
-
 }
 
 type Decoder interface {

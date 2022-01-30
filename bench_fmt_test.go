@@ -42,7 +42,6 @@ func Benchmark_DebugMap(b *testing.B) {
 			"key1": 1,
 			"key2": "val2",
 		})
-
 	}
 }
 
@@ -61,7 +60,6 @@ var toAppend = []byte(toAppendStr)
 var container = make([]byte, 0, len(toAppend)*2)
 
 func BenchmarkAppend(b *testing.B) {
-
 	b.Run("bytes", func(b *testing.B) {
 		for i := 0; i < b.N; i++ {
 			container = append(container, toAppend...)

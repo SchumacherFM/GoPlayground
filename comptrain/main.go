@@ -23,7 +23,7 @@ func main() {
 	c := colly.NewCollector(
 		colly.MaxDepth(2),
 		colly.CacheDir("./testdata/"),
-		//colly.Debugger(&debug.LogDebugger{}),
+		// colly.Debugger(&debug.LogDebugger{}),
 		colly.Async(false),
 		colly.UserAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.119 Safari/537.36"),
 		// 'X-Requested-With: XMLHttpRequest' -H 'Connection: keep-alive' -H 'Referer: http://comptrain.co/individuals/workoutarchive/'
@@ -56,7 +56,7 @@ func main() {
 
 	// Find and visit next page links
 	c.OnHTML(`a.vc_gitem-link[href]`, func(e *colly.HTMLElement) {
-		//log.Println("Next", e.Attr("href"))
+		// log.Println("Next", e.Attr("href"))
 		e.Request.Visit(e.Attr("href"))
 	})
 
@@ -97,7 +97,6 @@ func main() {
 
 	// Display collector's statistics
 	log.Println(c)
-
 }
 
 func fatalCheckErr(err error) {

@@ -17,7 +17,6 @@ import (
 const fileName = "test.txt"
 
 func BenchmarkFileReading(b *testing.B) {
-
 	b.Run("unbuffered", func(b *testing.B) {
 		for i := 0; i < b.N; i++ {
 			f, err := os.Open(fileName)
