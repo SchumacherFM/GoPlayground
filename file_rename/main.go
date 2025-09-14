@@ -13,6 +13,7 @@ import (
 )
 
 func main() {
+	fileCounter := 1
 	if err := filepath.Walk(os.Args[1], func(path string, info fs.FileInfo, err error) error {
 		if info.IsDir() {
 			return nil
@@ -39,7 +40,7 @@ func main() {
 		var dateTimeOriginal time.Time
 		for _, tag := range tags {
 			if tag.TagName == "DateTimeOriginal" && tag.Formatted != "" {
-				dateTimeOriginal, err = time.Parse("2006:01:02 15:04:05", tag.Formatted)
+				dateTimeOriginal, err = time.ParseInLocation("2006:01:02 15:04:05", tag.Formatted, time.Local)
 				if err != nil {
 					fmt.Println("L41:", err, " => ", path)
 					return nil
@@ -63,17 +64,25 @@ func main() {
 			return nil
 		}
 
-		if info.ModTime().Before(dateTimeOriginal) || info.ModTime().Truncate(time.Hour).Equal(dateTimeOriginal.Truncate(time.Hour)) {
-			fmt.Println("date equal => ", path, "exif time:", dateTimeOriginal.String(), "file time:", info.ModTime().String())
-			return nil
-		}
+		//if info.ModTime().Before(dateTimeOriginal) || info.ModTime().Truncate(time.Hour).Equal(dateTimeOriginal.Truncate(time.Hour)) {
+		//	fmt.Println("date equal => ", path, "exif time:", dateTimeOriginal.String(), "file time:", info.ModTime().String())
+		//	return nil
+		//}
 
 		println("=====================================================")
 		if err := os.Chtimes(path, dateTimeOriginal, dateTimeOriginal); err != nil {
 			panic(err)
 		}
-		repr.Println(dateTimeOriginal.String(), path)
 
+		dir, _ := filepath.Split(path)
+		if err := os.Rename(
+			path,
+			filepath.Join(dir, dateTimeOriginal.Format("2006-01-02_150405")+fmt.Sprintf("_%04d", fileCounter)+".jpg"),
+		); err != nil {
+			panic(err)
+		}
+		repr.Println(dateTimeOriginal.String(), path)
+		fileCounter++
 		return nil
 	}); err != nil {
 		panic(err)
